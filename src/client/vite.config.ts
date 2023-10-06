@@ -45,6 +45,10 @@ export default defineConfig({
                 target: "https://localhost:7149/",
                 secure: false,
             },
+            "^/downstreamversion": {
+                target: "https://localhost:7149/",
+                secure: false,
+            },
         },
         port: 5173,
         https: {

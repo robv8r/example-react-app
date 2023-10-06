@@ -8,13 +8,24 @@ interface Forecast {
     summary: string;
 }
 
+interface DownstreamVersionInfo {
+    assemblyVersion: string;
+    fileVersion: string;
+    productVersion: string;
+}
+
 function Weather() {
     const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [version, setVersion] = useState<DownstreamVersionInfo>();
 
     useEffect(() => {
         async function populateWeatherData() {
             const { data } = await axios.get<Forecast[]>("weatherforecast");
+            const { data: version } =
+                await axios.get<DownstreamVersionInfo>("downstreamversion");
+
             setForecasts(data);
+            setVersion(version);
         }
 
         populateWeatherData();
@@ -36,26 +47,40 @@ function Weather() {
     }
 
     return (
-        <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map((forecast) => (
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
+        <div>
+            <table className="table table-striped" aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Temp. (C)</th>
+                        <th>Temp. (F)</th>
+                        <th>Summary</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {forecasts.map((forecast) => (
+                        <tr key={forecast.date}>
+                            <td>{forecast.date}</td>
+                            <td>{forecast.temperatureC}</td>
+                            <td>{forecast.temperatureF}</td>
+                            <td>{forecast.summary}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <th>Assembly Version</th>
+                    <th>File Version</th>
+                    <th>Product Version</th>
+                </thead>
+                <tbody>
+                    <td>{version?.assemblyVersion}</td>
+                    <td>{version?.fileVersion}</td>
+                    <td>{version?.productVersion}</td>
+                </tbody>
+            </table>
+        </div>
     );
 }
 

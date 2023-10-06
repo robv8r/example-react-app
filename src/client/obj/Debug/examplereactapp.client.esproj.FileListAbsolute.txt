@@ -1,2 +1,0 @@
-C:\pj\drhi\git\example-react-app\ExampleReactApp\examplereactapp.client\obj\Debug\examplereactapp.client.esproj.CoreCompileInputs.cache
-C:\pj\drhi\git\example-react-app\src\client\obj\Debug\examplereactapp.client.esproj.CoreCompileInputs.cache
